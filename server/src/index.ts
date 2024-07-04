@@ -2,6 +2,7 @@ import express from 'express'
 import cors from 'cors'
 import 'dotenv/config'
 import authRouter from './routes/auth'
+import userRouter from './routes/user'
 import mongoose from 'mongoose'
 import passport  from 'passport'
 const passportSetup = require('../config/passport-strategy')
@@ -19,13 +20,13 @@ app.use(cookieSession({
 
 app.use(passport.initialize())
 app.use(passport.session())
-
 app.use(express.json())
 app.use(cors({
     origin: 'http://localhost:5173',
     credentials: true,
 }))
 app.use('/auth', authRouter)
+app.use('/api/user', userRouter)
 
 
 app.listen(port, ()=>{

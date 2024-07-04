@@ -11,8 +11,7 @@ router.get('/logout', (req,res)=>{
 })
 
 router.get('/google/redirect',passport.authenticate('google'), (req,res)=>{
-    console.log('reached here finally')
-    res.send(req.user)
+    res.redirect('http://localhost:5173')
 })
 
 

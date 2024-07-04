@@ -1,4 +1,4 @@
-export default function GoogleLoginBtn(){
+export default  function GoogleLoginBtn(){
     return (
         <div className="flex items-center justify-center m-6 dark:bg-gray-800 ">
             <a className="google-btn" href='http://localhost:3000/auth/google'>
