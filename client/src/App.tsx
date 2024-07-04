@@ -1,13 +1,28 @@
+
+import { RecoilRoot } from 'recoil'
+import TopBar from './components/TopBar'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
-import Login from './pages/Login'
+import AllArticles from './pages/AllArticles'
+import General from './pages/General'
+import Notices from './pages/Notices'
+import Events from './pages/Events'
+import Clubs from './pages/Clubs'
+
 
 function App() {
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route path='/login' element={<Login/>}/>
-      </Routes>
-    </BrowserRouter>
+    <RecoilRoot>
+        <BrowserRouter>
+          <TopBar/>
+          <Routes>
+            <Route path='/all' element={<AllArticles/>}/>
+            <Route path='/general' element={<General/>}/>
+            <Route path='/notices' element={<Notices/>}/>
+            <Route path='/events' element={<Events/>}/>
+            <Route path='/clubs' element={<Clubs/>}/>
+          </Routes>
+        </BrowserRouter>
+    </RecoilRoot>
   )
 }
 
