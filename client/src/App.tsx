@@ -7,6 +7,8 @@ import General from './pages/General'
 import Notices from './pages/Notices'
 import Events from './pages/Events'
 import Clubs from './pages/Clubs'
+import PrivateRoute from './components/PrivateRoute'
+import Dashboard from './pages/Dashboard'
 
 
 function App() {
@@ -20,6 +22,9 @@ function App() {
             <Route path='/notices' element={<Notices/>}/>
             <Route path='/events' element={<Events/>}/>
             <Route path='/clubs' element={<Clubs/>}/>
+            <Route element={<PrivateRoute/>}>
+              <Route path='/dashboard' element={<Dashboard/>}/>
+            </Route>
           </Routes>
         </BrowserRouter>
     </RecoilRoot>
