@@ -9,6 +9,7 @@ import Events from './pages/Events'
 import Clubs from './pages/Clubs'
 import PrivateRoute from './components/PrivateRoute'
 import Dashboard from './pages/Dashboard'
+import CreateArticle from './pages/CreateArticle'
 
 
 function App() {
@@ -24,6 +25,7 @@ function App() {
             <Route path='/clubs' element={<Clubs/>}/>
             <Route element={<PrivateRoute/>}>
               <Route path='/dashboard' element={<Dashboard/>}/>
+              <Route path='/dashboard/create-article' element={<CreateArticle/>}/>
             </Route>
           </Routes>
         </BrowserRouter>
