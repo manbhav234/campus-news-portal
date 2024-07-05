@@ -18,6 +18,14 @@ router.post('/upload', upload.single('file'), async (req,res)=>{
     })
 })
 
+router.get('/getAll', async (req,res)=>{
+    const articles = await Article.find().select('-__v')
+    res.json({
+        success:true,
+        articles: articles
+    })
+})
+
 router.put('/publish', async (req,res)=>{
     const id = req.query.id
     const updatedArticle = await Article.updateOne({_id: id}, {status: 'published'})

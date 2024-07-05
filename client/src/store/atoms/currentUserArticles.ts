@@ -28,12 +28,7 @@ export const publishedArticlesSelector = selector({
     key: 'publishedArticlesSelector',
     get: ({get}) => {
         const articles = get(currentUserArticlesAtom)
-        const publishedArticles: Article[] = []
-        articles.map((article: Article) => {
-            if (article.status == 'published'){
-                publishedArticles.push(article)
-            }
-        })
+        const publishedArticles: Article[] = articles.filter((article) => article.status == 'published')
         return publishedArticles
     }
 })
@@ -42,12 +37,7 @@ export const archivedArticlesSelector = selector({
     key: 'archivedArticlesSelector',
     get: ({get}) => {
         const articles = get(currentUserArticlesAtom)
-        const archivedArticles: Article[] = []
-        articles.map((article: Article) => {
-            if (article.status == 'archived'){
-                archivedArticles.push(article)
-            }
-        })
+        const archivedArticles: Article[] = articles.filter((article)=> article.status == 'archived')
         return archivedArticles
     }
 })
