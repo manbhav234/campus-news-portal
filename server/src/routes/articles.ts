@@ -9,7 +9,7 @@ router.post('/upload', upload.single('file'), async (req,res)=>{
         content: req.body.content,
         category: req.body.category,
         articleImage: req.file?.filename,
-        authorId: req.body.authorId,
+        author: req.body.author,
         status: req.body.status
     })
     res.json({

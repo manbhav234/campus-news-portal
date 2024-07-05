@@ -8,7 +8,7 @@ export interface Article {
     content: string,
     category: string,
     articleImage: string,
-    authorId: string,
+    author: string,
     status: string
 }
 
@@ -17,8 +17,8 @@ export const currentUserArticlesAtom = atom({
     default: selector({
         key: 'fetchArticlesSelector',
         get: async ({get}) => {
-            const id = get(currentUserAtom)._id
-            const response = await axios.get(`http://localhost:3000/api/user/articles?id=${id}`, {withCredentials: true})
+            const username = get(currentUserAtom).username
+            const response = await axios.get(`http://localhost:3000/api/user/articles?username=${username}`, {withCredentials: true})
             return response.data.articles as Article[]
         }
     })
@@ -51,3 +51,4 @@ export const archivedArticlesSelector = selector({
         return archivedArticles
     }
 })
+
