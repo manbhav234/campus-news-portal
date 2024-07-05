@@ -18,4 +18,30 @@ router.post('/upload', upload.single('file'), async (req,res)=>{
     })
 })
 
+router.put('/publish', async (req,res)=>{
+    const id = req.query.id
+    const updatedArticle = await Article.updateOne({_id: id}, {status: 'published'})
+    res.json({
+        success:true,
+        article: updatedArticle
+    })
+})
+
+router.put('/archive', async (req,res)=>{
+    const id = req.query.id
+    const updatedArticle = await Article.updateOne({_id: id}, {status: 'archived'})
+    res.json({
+        success:true,
+        article: updatedArticle
+    })
+})
+
+router.delete('/delete', async (req,res)=>{
+    const id = req.query._id
+    await Article.deleteOne({_id: id})
+    res.json({
+        success:true
+    })
+})
+
 export default router

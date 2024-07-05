@@ -22,17 +22,17 @@ export default function Dashboard(){
                         <h2 className="text-xl font-bold mt-4 ml-4 md:mt-8 md:ml-8 md:text-2xl">Published Articles</h2>
                         {publishedArticles.state == 'hasValue' ? publishedArticles.contents.length == 0 ? <CreateArticleBtn/> :
                         <div className="mt-4 mx-4 gap-2 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4">
-                            {publishedArticles.contents.map((article)=><ArticleCard title={article.title} content={article.content} category={article.category} articleImage={article.articleImage} status={article.status} author={article.author}/>)}
+                            {publishedArticles.contents.map((article)=><ArticleCard id={article._id} title={article.title} content={article.content} category={article.category} articleImage={article.articleImage} status={article.status} author={article.author}/>)}
                         </div> : 
                         <div>
                             <Loader/>
                         </div>}
                     </div>
-                    <div className="mt-12">
+                    <div className="my-12">
                         <h2 className="text-xl font-bold m-4 md:m-8 md:text-2xl">Archived Articles</h2>
                         {archivedArticles.state == 'hasValue' ? archivedArticles.contents.length == 0 ? <p>no archived articles</p> :                    
                         <div className="mt-4 mx-4 gap-2 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4">
-                            {archivedArticles.contents.map((article)=><ArticleCard title={article.title} content={article.content} category={article.category} articleImage={article.articleImage} status={article.status} author={article.author}/>)}
+                            {archivedArticles.contents.map((article)=><ArticleCard id={article._id} title={article.title} content={article.content} category={article.category} articleImage={article.articleImage} status={article.status} author={article.author}/>)}
                         </div> : 
                         <div>
                             <Loader/>
