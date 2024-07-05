@@ -1,14 +1,6 @@
 import express from 'express'
 import upload from '../middlewares/uploadArticle'
 import Article from '../db/models/articles'
-import { string } from 'zod'
-
-interface User {
-    username: string,
-    googleId: string,
-    _id: string
-}
-
 const router = express.Router()
 
 router.post('/upload', upload.single('file'), async (req,res)=>{

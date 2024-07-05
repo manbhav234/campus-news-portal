@@ -22,6 +22,7 @@ app.use(cookieSession({
 app.use(passport.initialize())
 app.use(passport.session())
 app.use(express.urlencoded({extended: false}))
+app.use(express.static('public'))
 app.use(express.json())
 app.use(cors({
     origin: 'http://localhost:5173',

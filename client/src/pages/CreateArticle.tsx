@@ -33,7 +33,7 @@ export default function CreateArticle(){
         formData.append('category', data.category)
         formData.append('authorId', currentUser._id)
         formData.append('status', formStatus)
-        const response = await axios.post('http://localhost:3000/api/articles/upload', formData)
+        const response = await axios.post('http://localhost:3000/api/articles/upload', formData, {withCredentials: true})
         if (response.data.success){
             setCurrentUserArticles([...currentUserArticles, response.data.article])
             navigate('/dashboard')
