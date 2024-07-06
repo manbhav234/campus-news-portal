@@ -9,7 +9,8 @@ export interface Article {
     category: string,
     articleImage: string,
     author: string,
-    status: string
+    status: string,
+    createdAt: number
 }
 
 export const currentUserArticlesAtom = atom({

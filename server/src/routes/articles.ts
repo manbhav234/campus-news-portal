@@ -4,13 +4,15 @@ import Article from '../db/models/articles'
 const router = express.Router()
 
 router.post('/upload', upload.single('file'), async (req,res)=>{
+    const date = Date.now()
     const article = await Article.create({
         title: req.body.title,
         content: req.body.content,
         category: req.body.category,
         articleImage: req.file?.filename,
         author: req.body.author,
-        status: req.body.status
+        status: req.body.status,
+        createdAt: date
     })
     res.json({
         article: article,

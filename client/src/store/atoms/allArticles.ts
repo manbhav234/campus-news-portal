@@ -50,11 +50,11 @@ export const clubArticleSelector = selector({
     }
 })
 
-export const uncategorizedArticleSelector = selector({
-    key: 'uncategorizedArticleSelector',
+export const noneArticleSelector = selector({
+    key: 'noneArticleSelector',
     get: ({get}) => {
         const articles = get(allArticlesAtom)
-        const uncategorizedArticles: Article[] = articles.filter((article)=> article.category == 'uncategorized')
-        return uncategorizedArticles
+        const noneArticles: Article[] = articles.filter((article)=> article.category == 'none')
+        return noneArticles
     }
 })

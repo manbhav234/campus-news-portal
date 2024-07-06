@@ -21,7 +21,8 @@ const ArticleSchema = new mongoose.Schema({
         type: String,
         ref: 'users'
     },
-    status: String
+    status: String,
+    createdAt: Number
 })
 
 const Article = mongoose.model('articles', ArticleSchema)

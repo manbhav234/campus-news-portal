@@ -1,5 +1,3 @@
-import { useRecoilValue } from "recoil"
-import { currentUserAtom } from "../store/atoms/user"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faTrash, faBoxArchive, faUpload } from "@fortawesome/free-solid-svg-icons"
 import { useNavigate, useLocation } from "react-router-dom"
@@ -15,14 +13,14 @@ interface ArticleCardProp {
   category: string,
   articleImage: string,
   status: string,
-  author: string
+  author: string,
+  createdAt: number
 }
 
 
-export default function ArticleCard({id, title, content, category, articleImage, status, author}: ArticleCardProp){
+export default function ArticleCard({id, title, content, category, articleImage, status, author, createdAt}: ArticleCardProp){
 
   const location = useLocation()
-  const currentUser = useRecoilValue(currentUserAtom)
   const [activeModal, setActiveModal] = useState(false)
   const [clickedArticle, setClickedArticle] = useState('')
   const [modalType, setModalType] = useState('')
@@ -35,6 +33,7 @@ export default function ArticleCard({id, title, content, category, articleImage,
 
   const handlePublish = async (id: string)=>{
     const response = await axios.put(`http://localhost:3000/api/articles/publish?id=${id}`)
+    console.log(response.data)
   }
 
   const handleArchive = async (id: string)=>{
@@ -46,14 +45,14 @@ export default function ArticleCard({id, title, content, category, articleImage,
   return (
     <div className="mx-2 max-w-md overflow-hidden rounded-lg bg-white shadow">
       <img src={`http://localhost:3000/articleImages/${articleImage}`} className="aspect-video w-full object-cover" alt="article image" />
-      <div className={`p-4 h-[100%] ${location.pathname == '/dashboard' ? 'hover:bg-slate-50 hover:cursor-pointer': ''}`} onClick={()=>{location.pathname == '/dashboard' ? navigate('/articlePage'): null}}>
-        <p className="mb-1 text-sm text-primary-500">{author} • <time>18 Nov 2022</time></p>
+      <div className={`p-4 h-[100%] ${location.pathname == '/dashboard' ? 'hover:bg-slate-50 hover:cursor-pointer': 'hover:cursor-pointer'}`} onClick={()=>{location.pathname == '/dashboard' ? navigate('/dashboard'): null}}>
+        <p className="mb-1 text-sm text-primary-500">{author} • <time>{new Date(createdAt).toString().split(' ').slice(1,4).join(' ')}</time></p>
         <h3 className="text-xl font-medium text-gray-900">{title}</h3>
-        <p className="mt-1 text-gray-500">{content}</p>
+        {/* <p className="mt-1 text-gray-500">{content}</p> */}
         <div className="mt-4 flex gap-2 justify-between items-center">
           <span className="inline-flex items-center gap-1 rounded-full bg-blue-50 px-2 py-1 text-xs font-semibold text-blue-600"> {category} </span>
           {location.pathname != '/dashboard'? 
-            <button type="button" className="rounded-lg border border-gray-700 bg-gray-700 px-5 py-2.5 text-center text-sm font-medium text-white shadow-sm transition-all hover:border-gray-900 hover:bg-gray-900 focus:ring focus:ring-gray-200 disabled:cursor-not-allowed disabled:border-gray-300 disabled:bg-gray-300">Read More</button>
+            <button type="button" className="rounded-lg border border-gray-700 bg-gray-700 px-5 py-2.5 text-center text-sm font-medium text-white shadow-sm transition-all hover:border-gray-900 hover:bg-gray-900 focus:ring focus:ring-gray-200 disabled:cursor-not-allowed disabled:border-gray-300 disabled:bg-gray-300">Read</button>
           : status == 'published' ?
             <div className="flex gap-1">
                 <button type="button" className="inline-flex items-center gap-1.5 rounded-lg border border-sky-500 bg-sky-500 px-5 py-2.5 text-center text-sm font-medium text-white shadow-sm transition-all hover:border-sky-700 hover:bg-sky-700 focus:ring focus:ring-sky-200 disabled:cursor-not-allowed disabled:border-sky-300 disabled:bg-sky-300" onClick={()=>{setActiveModal(true); setModalType('Archived'); setClickedArticle(id)}}><FontAwesomeIcon icon={faBoxArchive} size="sm" style={{color: "#ffffff",}} />Archive</button>
@@ -106,7 +105,6 @@ export default function ArticleCard({id, title, content, category, articleImage,
             </div> 
           </div>
         }
-
       </Modal>
     </div>
   )

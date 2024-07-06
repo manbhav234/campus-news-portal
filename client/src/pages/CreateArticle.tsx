@@ -62,7 +62,7 @@ export default function CreateArticle(){
                 <div className="flex flex-col gap-4 md:flex-row justify-between">
                     <input type="text" placeholder="Title" className="border border-black p-3 rounded-xl text-lg focus:outline-none flex-1" {...register("title", {required:{value:true, message:'This field is required'}})}/>
                     <select className="p-3 focus:outline-none border border-black rounded-xl hover:bg-slate-50 hover:cursor-pointer" {...register('category', {required:{value:true, message:'This field is required'}})}>
-                        <option value="uncategorized">Select Category</option>
+                        <option value="none">Select Category</option>
                         <option value="general">General</option>
                         <option value="notice">Notice</option>
                         <option value="event">Event</option>
