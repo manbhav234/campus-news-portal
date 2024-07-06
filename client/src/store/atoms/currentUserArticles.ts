@@ -2,6 +2,11 @@ import axios from "axios";
 import { atom, selector } from "recoil";
 import { currentUserAtom } from "./user";
 
+export interface EmojiType {
+    emoji: string,
+    count: number
+}
+
 export interface Article {
     _id: string,
     title: string,
@@ -10,7 +15,8 @@ export interface Article {
     articleImage: string,
     author: string,
     status: string,
-    createdAt: number
+    createdAt: number,
+    reactions: EmojiType[]
 }
 
 export const currentUserArticlesAtom = atom({

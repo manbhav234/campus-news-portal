@@ -12,7 +12,8 @@ router.post('/upload', upload.single('file'), async (req,res)=>{
         articleImage: req.file?.filename,
         author: req.body.author,
         status: req.body.status,
-        createdAt: date
+        createdAt: date,
+        reactions: []
     })
     res.json({
         article: article,
@@ -25,6 +26,15 @@ router.get('/getAll', async (req,res)=>{
     res.json({
         success:true,
         articles: articles
+    })
+})
+
+router.get('/getArticle', async (req,res)=>{
+    const id = req.query.id
+    const article = await Article.findOne({_id: id})
+    res.json({
+        success: true,
+        article: article
     })
 })
 
@@ -52,6 +62,11 @@ router.delete('/delete', async (req,res)=>{
     res.json({
         success:true
     })
+})
+
+router.put('/updateReactions', async (req,res)=> {
+    const id = req.query.id
+    await Article.updateOne({_id: id}, {reactions: req.body.reactions})
 })
 
 export default router

@@ -1,42 +1,84 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { useParams } from "react-router-dom"
 import parse from 'html-react-parser'
 import '../CurrentArticle.css'
-import findArticle from "../utils/findArticle"
 import EmojiPicker from 'emoji-picker-react'
-import {Emoji} from 'emoji-picker-react';
+import { Emoji } from "emoji-picker-react"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faFaceSmile } from "@fortawesome/free-solid-svg-icons"
+import axios from "axios"
+import { Article, EmojiType } from "../store/atoms/currentUserArticles"
+import Loader from "../components/Loader"
 
 export default function CurrentArticle(){
 
     const {articleId} = useParams()
-    const [currentArticle, setCurrentArticle] = useState(findArticle(articleId!))
+    const [currentArticle, setCurrentArticle] = useState({} as Article)
     const [emojiTrayOpen, setEmojiTrayOpen] = useState(false)
-    const [selectedEmoji, setSelectedEmoji] = useState('')
+    const [articleReactions, setArticleReactions] = useState([] as EmojiType[])
+    const [loading, setLoading] = useState(true)
+    useEffect(()=>{
+        async function fetchArticle(articleId: string){
+            const response = await axios.get(`http://localhost:3000/api/articles/getArticle?id=${articleId}`)
+            if (response.data.success){
+                setCurrentArticle(response.data.article)
+                setArticleReactions(response.data.article.reactions)
+                setLoading(false)
+            }
+        }
+        fetchArticle(articleId!)
+    }, [])
 
-    const handleEmojiClick = (emojiObject: any) => {
-        setSelectedEmoji(emojiObject.unified)
+    const handleEmojiClick = async (emojiObject: any) => {
+        let found = false
+        for (let i = 0; i < articleReactions.length; i++){
+            if (articleReactions[i].emoji == emojiObject.unified){
+                articleReactions[i].count++
+                found = true
+                break
+            }
+        }
+        if (!found){
+            setArticleReactions([...articleReactions, {emoji: emojiObject.unified, count: 1}])
+        }
         setEmojiTrayOpen(false)
-    }
+        console.log('reached here')
+        await axios.put(`http://localhost:3000/api/articles/updateReactions?id=${articleId}`, {
+            reactions: articleReactions
+        })
+    } 
 
     return (
         <>   
+        {loading ? 
+        <div className="flex justify-center items-center h-screen w-screen">
+            <Loader/>
+        </div> :
         <div className="w-[80%] mx-auto flex flex-col justify-center border-x-2 shadow mb-48">
-            <h1 className="text-4xl md:text-5xl text-center font-bold my-8">{currentArticle.title}</h1>
-            <p className="place-self-center text-xl mb-6 font-semibold">Author : {currentArticle.author}</p>
-            <span className="rounded-full bg-blue-50 px-4 py-2 text-lg font-semibold text-blue-600 text-center place-self-center mb-4"> {currentArticle.category} </span>
-            <img src={`http://localhost:3000/articleImages/${currentArticle.articleImage}`} alt="Article Image" className="place-self-center w-[80%]"/>
-            <div className="post-content">
-                {parse(currentArticle.content)}
+        <h1 className="text-4xl md:text-5xl text-center font-bold my-8">{currentArticle.title}</h1>
+        <p className="place-self-center text-xl mb-6 font-semibold">Author : {currentArticle.author}</p>
+        <span className="rounded-full bg-blue-50 px-4 py-2 text-lg font-semibold text-blue-600 text-center place-self-center mb-4"> {currentArticle.category} </span>
+        <img src={`http://localhost:3000/articleImages/${currentArticle.articleImage}`} alt="Article Image" className="place-self-center w-[80%]"/>
+        <div className="post-content">
+            {parse(currentArticle.content)}
+        </div>
+        <div className="mt-8 flex flex-col items-center">
+            <h2 className="text-center text-2xl md:text-3xl font-bold mb-4">Reactions</h2>
+            {/* {'emoji tray'} */}
+            <div className="grid grid-cols-4 md:grid-cols-6 gap-3 place-items-center">
+                {articleReactions.length != 0 ? articleReactions.map((emoji)=> 
+                <div className="flex gap-2 items-center border p-2 rounded-xl">
+                    <Emoji unified={emoji.emoji}/>
+                    <span className="text-lg font-semibold">{emoji.count}</span>
+                </div>
+                ) : null}
             </div>
-            {/* <div className="mt-8 flex flex-col items-center">
-                <h2 className="text-center text-2xl md:text-3xl font-bold mb-4">Reactions</h2>
-                <Emoji unified={selectedEmoji}/>
-                <button className="border-2 p-2 rounded-full m-4"><FontAwesomeIcon icon={faFaceSmile} size="2xl" style={{color: "#a3a3a3",}} onClick={()=>setEmojiTrayOpen(!emojiTrayOpen)}/></button>
-                <EmojiPicker open={emojiTrayOpen} onEmojiClick={handleEmojiClick}/>
-            </div> */}
-        </div> 
+            <button className="border-2 p-2 rounded-full m-4"><FontAwesomeIcon icon={faFaceSmile} size="2xl" style={{color: "#a3a3a3",}} onClick={()=>setEmojiTrayOpen(!emojiTrayOpen)}/></button>
+            <EmojiPicker open={emojiTrayOpen} onEmojiClick={handleEmojiClick}/>
+        </div>
+    </div> 
+        }
+
         </>
     )
 }

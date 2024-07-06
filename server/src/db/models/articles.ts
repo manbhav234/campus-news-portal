@@ -1,4 +1,5 @@
 import mongoose, { mongo } from 'mongoose'
+import { number } from 'zod'
 
 const ArticleSchema = new mongoose.Schema({
     title: {
@@ -22,7 +23,8 @@ const ArticleSchema = new mongoose.Schema({
         ref: 'users'
     },
     status: String,
-    createdAt: Number
+    createdAt: Number,
+    reactions: [{emoji: String, count: Number}]
 })
 
 const Article = mongoose.model('articles', ArticleSchema)
