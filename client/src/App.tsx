@@ -10,6 +10,7 @@ import Clubs from './pages/Clubs'
 import PrivateRoute from './components/PrivateRoute'
 import Dashboard from './pages/Dashboard'
 import CreateArticle from './pages/CreateArticle'
+import CurrentArticle from './pages/CurrentArticle'
 
 
 function App() {
@@ -27,6 +28,7 @@ function App() {
               <Route path='/dashboard' element={<Dashboard/>}/>
               <Route path='/dashboard/create-article' element={<CreateArticle/>}/>
             </Route>
+            <Route path='/article/:articleId' element={<CurrentArticle/>}/>
           </Routes>
         </BrowserRouter>
     </RecoilRoot>

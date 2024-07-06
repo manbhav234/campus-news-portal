@@ -53,7 +53,7 @@ export default function ArticleCard({id, title, content, category, articleImage,
         <div className="mt-4 flex gap-2 justify-between items-center">
           <span className="inline-flex items-center gap-1 rounded-full bg-blue-50 px-2 py-1 text-xs font-semibold text-blue-600"> {category} </span>
           {location.pathname != '/dashboard'? 
-            <button type="button" className="rounded-lg border border-gray-700 bg-gray-700 px-5 py-2.5 text-center text-sm font-medium text-white shadow-sm transition-all hover:border-gray-900 hover:bg-gray-900 focus:ring focus:ring-gray-200 disabled:cursor-not-allowed disabled:border-gray-300 disabled:bg-gray-300">Read</button>
+            <button type="button" className="rounded-lg border border-gray-700 bg-gray-700 px-5 py-2.5 text-center text-sm font-medium text-white shadow-sm transition-all hover:border-gray-900 hover:bg-gray-900 focus:ring focus:ring-gray-200 disabled:cursor-not-allowed disabled:border-gray-300 disabled:bg-gray-300" onClick={() => navigate(`/article/${id}`)}>Read</button>
           : status == 'published' ?
             <div className="flex gap-1">
                 <button type="button" className="inline-flex items-center gap-1.5 rounded-lg border border-sky-500 bg-sky-500 px-5 py-2.5 text-center text-sm font-medium text-white shadow-sm transition-all hover:border-sky-700 hover:bg-sky-700 focus:ring focus:ring-sky-200 disabled:cursor-not-allowed disabled:border-sky-300 disabled:bg-sky-300" onClick={()=>{setActiveModal(true); setModalType('Archived'); setClickedArticle(id)}}><FontAwesomeIcon icon={faBoxArchive} size="sm" style={{color: "#ffffff",}} />Archive</button>

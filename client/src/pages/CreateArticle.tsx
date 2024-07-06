@@ -1,13 +1,13 @@
-import ReactQuill from "react-quill";
 import { useForm, SubmitHandler } from "react-hook-form";
-import 'react-quill/dist/quill.snow.css';
+import { Editor } from '@tinymce/tinymce-react';
+import { Editor as TinyMCEEditor } from 'tinymce';
 import { useEffect } from "react";
 import axios from "axios";
 import { useRecoilValue, useRecoilState } from "recoil";
 import { currentUserAtom } from "../store/atoms/user";
 import { currentUserArticlesAtom } from "../store/atoms/currentUserArticles";
 import { useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useState, useRef } from "react";
 
 
 type Inputs = {
@@ -39,21 +39,20 @@ export default function CreateArticle(){
             navigate('/dashboard')
         }
     };
+    const editorRef = useRef<TinyMCEEditor | null>(null);
 
     useEffect(() => {
         register("content", { required:{value:true, message:'This field is required'}});
       }, [register]);
-
-    const onEditorStateChange = (editorState: string) => {
-        setValue("content", editorState);
-    };
 
     const handleSubmitType = (type: string) => {
         console.log('reached here')
         setFormStatus(type)
     }
 
-    const editorContent = watch("content");
+    const handleContentChange = (content : string, editor: TinyMCEEditor) => {
+        setValue('content', content)
+    }
 
     return (
         <div className="p-3 max-w-3xl mx-auto min-h-screen">
@@ -72,7 +71,26 @@ export default function CreateArticle(){
                 <div className="flex items-center justify-center border-2 border-dashed border-black">
                     <input type="file" accept=".png, .jpg, .jpeg" className="w-[95%] file:bg-black file:text-white file:border-none file:p-3 file:mr-4 file:hover:cursor-pointer border border-black rounded-xl font-medium text-center my-4" {...register('articleImage', {required:{value:true, message:'This field is required'}})}/>
                 </div>
-                <ReactQuill theme="snow" placeholder="Write your article here..." className="h-72 mb-12" value={editorContent} onChange={onEditorStateChange}/>
+                <Editor
+                    apiKey="j2gra32zak1q78pz5hcxgkkla9twg1g77td6ckoe3w0wsj6w"
+                    onInit={(_evt, editor) => editorRef.current = editor}
+                    initialValue=""
+                    init={{
+                    height: 400,
+                    menubar: false,
+                    plugins: [
+                        'advlist', 'autolink', 'lists', 'link', 'image', 'charmap', 'preview',
+                        'anchor', 'searchreplace', 'visualblocks', 'code', 'fullscreen',
+                        'insertdatetime', 'media', 'table', 'code', 'help', 'wordcount'
+                    ],
+                    toolbar: 'undo redo | blocks | ' +
+                        'bold italic forecolor | alignleft aligncenter ' +
+                        'alignright alignjustify | bullist numlist outdent indent | ' +
+                        'removeformat | help',
+                    content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:14px }'
+                    }}
+                    onEditorChange={handleContentChange}
+                />
                 <div className="flex justify-end">
                     <button disabled={isSubmitting} type="submit" className="text-white font-bold text-lg rounded-xl p-3 bg-sky-500 mx-2" onClick={()=> handleSubmitType('archived')}>Archive</button>
                     <button disabled={isSubmitting} type="submit" className="text-white font-bold text-lg rounded-xl p-3 bg-red-500 " onClick={()=> handleSubmitType('published')}>Publish</button>
