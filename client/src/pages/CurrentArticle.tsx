@@ -12,6 +12,7 @@ import Loader from "../components/Loader"
 import CommentSection from "../components/CommentSection"
 import { useRecoilState } from "recoil"
 import { selectedArticleAtom } from "../store/atoms/selectedArticle"
+import { count } from "console"
 
 export default function CurrentArticle(){
 
@@ -37,23 +38,25 @@ export default function CurrentArticle(){
 
     const handleEmojiClick = async (emojiObject: any) => {
         let found = false
-        console.log(articleReactions)
+        let updatedArticleReactions;
         for (let i = 0; i < articleReactions.length; i++){
             if (articleReactions[i].emoji == emojiObject.unified){
-                const newCount = articleReactions[i].count + 1
                 found = true
-                setArticleReactions(articleReactions.map((reaction, index)=> index == i ? {...reaction, count: newCount}: reaction))
-                break
+                const newCount = articleReactions[i].count + 1
+                updatedArticleReactions = articleReactions.map((reaction, index)=> index == i ? {...reaction, count: newCount} : reaction)
+                setArticleReactions(updatedArticleReactions)
+                break;
             }
         
         }
         if (!found){
-            setArticleReactions([...articleReactions, {...emojiObject, emoji: emojiObject.unified, count: 1}])
+            updatedArticleReactions = [...articleReactions, {...emojiObject, emoji: emojiObject.unified, count: 1}]
+            setArticleReactions(updatedArticleReactions)
         }
-        setEmojiTrayOpen(false)
-        const response = await axios.put(`http://localhost:3000/api/articles/updateReactions?id=${articleId}`, {
-            reactions: articleReactions
+        axios.put(`http://localhost:3000/api/articles/updateReactions?id=${articleId}`, {
+            reactions: updatedArticleReactions
         })
+        setEmojiTrayOpen(false)
     } 
 
     return (

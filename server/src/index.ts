@@ -7,11 +7,11 @@ import articleRouter from './routes/articles'
 import commentRouter from './routes/comments'
 import mongoose from 'mongoose'
 import passport  from 'passport'
-const passportSetup = require('../config/passport-strategy')
+const passportSetup = require('../config/passport-strategy') 
 import cookieSession from 'cookie-session'
 
 const app = express()
-const port = 3000
+const port = process.env.PORT || 3000;
 
 mongoose.connect(process.env.MONGO_URI!)
 

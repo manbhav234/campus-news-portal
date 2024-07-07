@@ -1,10 +1,17 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faUser, faCaretUp } from "@fortawesome/free-solid-svg-icons"
 import { useState } from "react"
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
+import axios from "axios"
 
 export default function ProfileButton(){
     const [isOpen, setIsOpen] = useState(false)
+    const navigate = useNavigate()
+    const handleLogout = async () => {
+        const response = await axios.get('http://localhost:3000/auth/logout')
+        console.log(response.data)
+    }
+
     return (
         <>
         <button onClick={()=> {setIsOpen(!isOpen)}} className="hidden md:flex w-12 h-12 rounded-full bg-slate-100 mx-4 justify-center items-center">
@@ -18,7 +25,7 @@ export default function ProfileButton(){
             </div>
             <div className="hidden md:flex flex-col fixed right-2 top-16 rounded-xl w-48 bg-white shadow-md">
                 <Link to={'/dashboard'} className="p-3 text-lg hover:font-medium bg-slate-100 hover:bg-slate-200">Dashboard</Link>
-                <button className="p-3 text-lg hover:font-medium bg-slate-100 text-start hover:bg-slate-200">Logout</button>
+                <button className="p-3 text-lg hover:font-medium bg-slate-100 text-start hover:bg-slate-200" onClick={handleLogout}>Logout</button>
             </div>  
         </> : null}
         </>
