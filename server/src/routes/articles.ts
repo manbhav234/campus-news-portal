@@ -13,7 +13,8 @@ router.post('/upload', upload.single('file'), async (req,res)=>{
         author: req.body.author,
         status: req.body.status,
         createdAt: date,
-        reactions: []
+        reactions: [],
+        comments: []
     })
     res.json({
         article: article,
@@ -67,6 +68,14 @@ router.delete('/delete', async (req,res)=>{
 router.put('/updateReactions', async (req,res)=> {
     const id = req.query.id
     await Article.updateOne({_id: id}, {reactions: req.body.reactions})
+})
+
+router.get('/getComments', async (req,res)=>{
+    const id = req.query.id
+    const article = await Article.findOne({_id : id})
+    res.json({
+        comments: article?.comments
+    })
 })
 
 export default router

@@ -7,6 +7,13 @@ export interface EmojiType {
     count: number
 }
 
+export interface Comment {
+    articleId: string
+    author: string,
+    createdAt: number,
+    content: string
+}
+
 export interface Article {
     _id: string,
     title: string,
@@ -16,7 +23,8 @@ export interface Article {
     author: string,
     status: string,
     createdAt: number,
-    reactions: EmojiType[]
+    reactions: EmojiType[],
+    comments: Comment[]
 }
 
 export const currentUserArticlesAtom = atom({

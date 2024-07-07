@@ -1,5 +1,4 @@
-import mongoose, { mongo } from 'mongoose'
-import { number } from 'zod'
+import mongoose from 'mongoose'
 
 const ArticleSchema = new mongoose.Schema({
     title: {
@@ -24,7 +23,11 @@ const ArticleSchema = new mongoose.Schema({
     },
     status: String,
     createdAt: Number,
-    reactions: [{emoji: String, count: Number}]
+    reactions: [{emoji: String, count: Number}],
+    comments: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'comments'
+    }]
 })
 
 const Article = mongoose.model('articles', ArticleSchema)

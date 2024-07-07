@@ -4,6 +4,7 @@ import 'dotenv/config'
 import authRouter from './routes/auth'
 import userRouter from './routes/user'
 import articleRouter from './routes/articles'
+import commentRouter from './routes/comments'
 import mongoose from 'mongoose'
 import passport  from 'passport'
 const passportSetup = require('../config/passport-strategy')
@@ -32,6 +33,7 @@ app.use(cors({
 app.use('/auth', authRouter)
 app.use('/api/user', userRouter)
 app.use('/api/articles', articleRouter)
+app.use('/api/comments', commentRouter)
 
 
 app.listen(port, ()=>{
