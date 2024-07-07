@@ -20,6 +20,7 @@ export default function CurrentArticle(){
     const [emojiTrayOpen, setEmojiTrayOpen] = useState(false)
     const [articleReactions, setArticleReactions] = useState([] as EmojiType[])
     const [loading, setLoading] = useState(true)
+
     useEffect(()=>{
         async function fetchArticle(articleId: string){
             const response = await axios.get(`http://localhost:3000/api/articles/getArticle?id=${articleId}`)
@@ -32,23 +33,27 @@ export default function CurrentArticle(){
         fetchArticle(articleId!)
     }, [])
 
+
+
     const handleEmojiClick = async (emojiObject: any) => {
         let found = false
+        console.log(articleReactions)
         for (let i = 0; i < articleReactions.length; i++){
             if (articleReactions[i].emoji == emojiObject.unified){
-                articleReactions[i].count++
+                const newCount = articleReactions[i].count + 1
                 found = true
+                setArticleReactions(articleReactions.map((reaction, index)=> index == i ? {...reaction, count: newCount}: reaction))
                 break
             }
+        
         }
         if (!found){
-            setArticleReactions([...articleReactions, {emoji: emojiObject.unified, count: 1}])
+            setArticleReactions([...articleReactions, {...emojiObject, emoji: emojiObject.unified, count: 1}])
         }
         setEmojiTrayOpen(false)
         const response = await axios.put(`http://localhost:3000/api/articles/updateReactions?id=${articleId}`, {
             reactions: articleReactions
         })
-        console.log('reached here')
     } 
 
     return (
@@ -72,7 +77,7 @@ export default function CurrentArticle(){
                 <div className="grid grid-cols-4 md:grid-cols-6 gap-3 place-items-center mt-4">
                     {articleReactions.length != 0 ? articleReactions.map((emoji)=> 
                         <div className="flex gap-2 items-center border p-2 rounded-xl">
-                            <Emoji unified={emoji.emoji}/>
+                            <Emoji key={emoji._id} unified={emoji.emoji}/>
                             <span className="text-lg font-semibold">{emoji.count}</span>
                         </div>
                     ) : null}

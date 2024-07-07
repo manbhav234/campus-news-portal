@@ -3,6 +3,7 @@ import { atom, selector } from "recoil";
 import { currentUserAtom } from "./user";
 
 export interface EmojiType {
+    _id: string
     emoji: string,
     count: number
 }

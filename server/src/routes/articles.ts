@@ -68,6 +68,9 @@ router.delete('/delete', async (req,res)=>{
 router.put('/updateReactions', async (req,res)=> {
     const id = req.query.id
     await Article.updateOne({_id: id}, {reactions: req.body.reactions})
+    res.json({
+        success: true
+    })
 })
 
 router.get('/getComments', async (req,res)=>{
