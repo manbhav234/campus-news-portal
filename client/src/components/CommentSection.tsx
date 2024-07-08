@@ -16,7 +16,7 @@ export default function CommentSection(){
                     </div>
                     {loadedComments.contents.length != 0 ? 
                     <div>
-                        <div className="h-[80vh] overflow-y-auto">
+                        <div className="max-h-[80vh] overflow-y-auto">
                             {loadedComments.contents.map((comment)=><CommentCard key={comment._id} author={comment.author} createdAt={comment.createdAt} content={comment.content}/>)}
                         </div>
                         <CreateComment/>

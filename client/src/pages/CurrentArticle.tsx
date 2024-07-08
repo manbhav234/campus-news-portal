@@ -12,7 +12,6 @@ import Loader from "../components/Loader"
 import CommentSection from "../components/CommentSection"
 import { useRecoilState } from "recoil"
 import { selectedArticleAtom } from "../store/atoms/selectedArticle"
-import { count } from "console"
 
 export default function CurrentArticle(){
 
@@ -24,7 +23,7 @@ export default function CurrentArticle(){
 
     useEffect(()=>{
         async function fetchArticle(articleId: string){
-            const response = await axios.get(`http://localhost:3000/api/articles/getArticle?id=${articleId}`)
+            const response = await axios.get(`/api/articles/getArticle?id=${articleId}`)
             if (response.data.success){
                 setCurrentArticle(response.data.article)
                 setArticleReactions(response.data.article.reactions)
@@ -53,7 +52,7 @@ export default function CurrentArticle(){
             updatedArticleReactions = [...articleReactions, {...emojiObject, emoji: emojiObject.unified, count: 1}]
             setArticleReactions(updatedArticleReactions)
         }
-        axios.put(`http://localhost:3000/api/articles/updateReactions?id=${articleId}`, {
+        axios.put(`/api/articles/updateReactions?id=${articleId}`, {
             reactions: updatedArticleReactions
         })
         setEmojiTrayOpen(false)
@@ -66,16 +65,16 @@ export default function CurrentArticle(){
             <Loader/>
         </div> :
         <div className="w-[95%] mx-auto flex flex-col justify-center border-x-2 shadow">
-            <img src={`http://localhost:3000/articleImages/${currentArticle.articleImage}`} alt="Article Image" className="place-self-center w-[80%] rounded-2xl mt-12"/>
-            <div className="flex flex-col gap-2 md:flex-row md:justify-between items-center mt-6 w-[75%] mx-auto">
+            <img src={`/articleImages/${currentArticle.articleImage}`} alt="Article Image" className="place-self-center w-[70%] rounded-2xl mt-12"/>
+            <div className="flex flex-col gap-2 md:flex-row md:justify-between items-center mt-6 w-[68%] mx-auto">
                 <p className="text-xl mb-6 font-semibold">Author : {currentArticle.author}</p>
-                <span className="rounded-full bg-blue-50 px-4 py-2 text-lg font-semibold text-blue-600 text-center mb-4"> {currentArticle.category} </span>
+                <span className="rounded-full bg-blue-50 px-4 py-2 text-base md:text-lg font-semibold text-blue-600 text-center mb-4"> {currentArticle.category} </span>
             </div>
             <h1 className="text-3xl md:text-5xl text-center font-bold my-8">{currentArticle.title}</h1>
-            <div className="post-content">
+            <div className="post-content w-[80%] mx-auto">
                 {parse(currentArticle.content)}
             </div>
-            <div className="mt-8 flex flex-col items-center border-b-2 mx-4">
+            <div className="mt-8 pt-6 flex flex-col items-center border-y-2 mx-4">
                 <h2 className="text-center text-2xl md:text-3xl font-bold mb-4">Reactions</h2>
                 <div className="grid grid-cols-4 md:grid-cols-6 gap-3 place-items-center mt-4">
                     {articleReactions.length != 0 ? articleReactions.map((emoji)=> 
@@ -85,7 +84,7 @@ export default function CurrentArticle(){
                         </div>
                     ) : null}
                 </div>
-                <button className="border-2 p-2 rounded-full m-4" onClick={()=>setEmojiTrayOpen(!emojiTrayOpen)}><FontAwesomeIcon icon={faFaceSmile} size="2xl" style={{color: "#a3a3a3",}}/></button>
+                <button className="border-2 p-2 rounded-full mt-12 mb-4" onClick={()=>setEmojiTrayOpen(!emojiTrayOpen)}><FontAwesomeIcon icon={faFaceSmile} size="2xl" style={{color: "#a3a3a3",}}/></button>
                 <EmojiPicker open={emojiTrayOpen} onEmojiClick={handleEmojiClick} className="mb-4"/>
             </div>
             <CommentSection/>

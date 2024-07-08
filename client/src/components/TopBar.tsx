@@ -13,12 +13,9 @@ export default function TopBar(){
     const [isMenuHidden, setMenuHidden] = useState(true)
     const [isLoggedIn, setIsLoggedIn] = useState(false)
     const setCurrentUser = useSetRecoilState(currentUserAtom)
-    useEffect(()=>{
-        checkLogin()
-    }, [])
 
     async function checkLogin(){
-        const response = await axios.get('http://localhost:3000/api/user/authenticate', {withCredentials: true})
+        const response = await axios.get('/api/user/authenticate', {withCredentials: true})
         if (response.data.success){
             setCurrentUser(response.data.user)
             setIsLoggedIn(true)
@@ -26,6 +23,10 @@ export default function TopBar(){
             setIsLoggedIn(false)
         }    
     }
+
+    useEffect(()=>{
+        checkLogin()
+    }, [])
 
     function toggleMenu(){
         setMenuHidden(!isMenuHidden)
@@ -62,17 +63,17 @@ export default function TopBar(){
                     </div>
                 </div>
                 <div className='flex flex-col mx-6 space-y-2'>
-                    <Link to={'/all'} className='text-xl p-3 hover:font-bold hover:bg-gray-100 rounded-xl'>All</Link>
-                    <Link to={'/general'} className='text-xl p-3 hover:font-bold hover:bg-gray-100 rounded-xl'>General</Link>
-                    <Link to={'/notices'} className='text-xl p-3 hover:font-bold hover:bg-gray-100 rounded-xl'>Notices</Link>
-                    <Link to={'/events'} className='text-xl p-3 hover:font-bold hover:bg-gray-100 rounded-xl'>Events</Link>
-                    <Link to={'/clubs'} className='text-xl p-3 hover:font-bold hover:bg-gray-100 rounded-xl'>Clubs</Link>
+                    <Link to={'/all'} className='text-xl p-3 hover:font-bold hover:bg-gray-100 rounded-xl' onClick={toggleMenu}>All</Link>
+                    <Link to={'/general'} className='text-xl p-3 hover:font-bold hover:bg-gray-100 rounded-xl' onClick={toggleMenu}>General</Link>
+                    <Link to={'/notices'} className='text-xl p-3 hover:font-bold hover:bg-gray-100 rounded-xl' onClick={toggleMenu}>Notices</Link>
+                    <Link to={'/events'} className='text-xl p-3 hover:font-bold hover:bg-gray-100 rounded-xl' onClick={toggleMenu}>Events</Link>
+                    <Link to={'/clubs'} className='text-xl p-3 hover:font-bold hover:bg-gray-100 rounded-xl' onClick={toggleMenu}>Clubs</Link>
                 </div>
                 <div className='h-[1px] w-[95%] mx-auto bg-gray-200 mt-2'></div>
                 {isLoggedIn ? 
                 <div className='flex flex-col mx-6 space-y-2 mt-2'>
-                    <Link to={'/dashboard'} className='text-xl p-3 hover:font-bold hover:bg-gray-100 rounded-xl'>Dashboard</Link>
-                    <button className='text-xl p-3 hover:font-bold hover:bg-gray-100 rounded-xl text-start'>Logout</button>
+                    <Link to={'/dashboard'} className='text-xl p-3 hover:font-bold hover:bg-gray-100 rounded-xl' onClick={toggleMenu}>Dashboard</Link>
+                    <button className='text-xl p-3 hover:font-bold hover:bg-gray-100 rounded-xl text-start' onClick={()=>{toggleMenu()}}>Logout</button>
                 </div> :
                 <div className='flex justify-center items-center'>
                     <GoogleLoginBtn/>

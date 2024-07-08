@@ -5,7 +5,7 @@
 @layer components {
     
     .post-content {
-        @apply p-2 mt-4 pb-12 mx-4 border-b-2
+        @apply p-2 mt-4 pb-12 mx-4
     }
 
     .post-content h1{

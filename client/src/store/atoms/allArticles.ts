@@ -7,7 +7,7 @@ export const allArticlesAtom = atom({
     default: selector({
         key: 'fetchAllArticlesSelector',
         get: async ({get}) =>{
-            const response = await axios.get('http://localhost:3000/api/articles/getAll')
+            const response = await axios.get('/api/articles/getAll')
             const publishedArticles: Article[] = response.data.articles.filter((article: Article)=> article.status == 'published')
             return publishedArticles
         }

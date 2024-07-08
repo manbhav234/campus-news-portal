@@ -14,7 +14,7 @@ export const selectedArticleCommentsAtom = atom({
         key: 'fetchCommentsSelector',
         get: async ({get}) => {
             const selectedArticle = get(selectedArticleAtom)
-            const response = await axios.get(`http://localhost:3000/api/articles/getComments?id=${selectedArticle._id}`)
+            const response = await axios.get(`/api/articles/getComments?id=${selectedArticle._id}`)
             return response.data.comments as Comment[]
         }
     })
@@ -29,7 +29,7 @@ export const loadedCommentsAtom = atom({
             const array = get(selectedArticleCommentsAtom)
             const loadedComments = []
             for (let i = 0; i < array.length; i++){
-                const response = await axios.get(`http://localhost:3000/api/comments/getComment?id=${array[i]}`)
+                const response = await axios.get(`/api/comments/getComment?id=${array[i]}`)
                 loadedComments.push(response.data.comment)
             }
             return loadedComments

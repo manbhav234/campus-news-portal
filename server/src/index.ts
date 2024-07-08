@@ -1,5 +1,4 @@
 import express from 'express'
-import cors from 'cors'
 import 'dotenv/config'
 import authRouter from './routes/auth'
 import userRouter from './routes/user'
@@ -25,10 +24,6 @@ app.use(passport.session())
 app.use(express.urlencoded({extended: false}))
 app.use(express.static('public'))
 app.use(express.json())
-app.use(cors({
-    origin: 'http://localhost:5173',
-    credentials: true,
-}))
 
 app.use('/auth', authRouter)
 app.use('/api/user', userRouter)

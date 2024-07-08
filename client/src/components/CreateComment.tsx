@@ -23,7 +23,7 @@ export default function CreateComment(){
             content: content,
             createdAt: Date.now()
        }
-       const response = await axios.post('http://localhost:3000/api/comments/create', {
+       const response = await axios.post('/api/comments/create', {
         comment: comment
        })
        setLoadedComments([response.data.latestComment,...loadedComments])

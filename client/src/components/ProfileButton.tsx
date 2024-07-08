@@ -8,8 +8,12 @@ export default function ProfileButton(){
     const [isOpen, setIsOpen] = useState(false)
     const navigate = useNavigate()
     const handleLogout = async () => {
-        const response = await axios.get('http://localhost:3000/auth/logout')
+        const response = await axios.get('/auth/logout')
         console.log(response.data)
+    }
+
+    const handleCloseOverlay  = ()=>{
+        setIsOpen(false)
     }
 
     return (
@@ -24,8 +28,8 @@ export default function ProfileButton(){
                 <FontAwesomeIcon icon={faCaretUp} size="2xl" style={{color: "#f1f5f9",}} />
             </div>
             <div className="hidden md:flex flex-col fixed right-2 top-16 rounded-xl w-48 bg-white shadow-md">
-                <Link to={'/dashboard'} className="p-3 text-lg hover:font-medium bg-slate-100 hover:bg-slate-200">Dashboard</Link>
-                <button className="p-3 text-lg hover:font-medium bg-slate-100 text-start hover:bg-slate-200" onClick={handleLogout}>Logout</button>
+                <Link to={'/dashboard'} className="p-3 text-lg hover:font-medium bg-slate-100 hover:bg-slate-200" onClick={handleCloseOverlay}>Dashboard</Link>
+                <button className="p-3 text-lg hover:font-medium bg-slate-100 text-start hover:bg-slate-200" onClick={()=>{handleCloseOverlay()}}>Logout</button>
             </div>  
         </> : null}
         </>

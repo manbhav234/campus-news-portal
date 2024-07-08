@@ -5,6 +5,8 @@ import { useState } from "react"
 import Modal from "./Modal"
 import axios from "axios"
 import parseDate from "../utils/parseDate"
+import { useRecoilState } from "recoil"
+import { currentUserArticlesAtom } from "../store/atoms/currentUserArticles"
 
 
 interface ArticleCardProp {
@@ -27,25 +29,29 @@ export default function ArticleCard({id, title, content, category, articleImage,
   const [modalType, setModalType] = useState('')
   const navigate = useNavigate()
 
+  const [currentArticles, setCurrentArticles] = useRecoilState(currentUserArticlesAtom)
+
   const handleDelete = async (id: string)=>{
-    const response = await axios.delete(`http://localhost:3000/api/articles/delete?id=${id}`)
+    const response = await axios.delete(`/api/articles/delete?id=${id}`)
     console.log(response.data)
   }
 
   const handlePublish = async (id: string)=>{
-    const response = await axios.put(`http://localhost:3000/api/articles/publish?id=${id}`)
+    setCurrentArticles(currentArticles.map((article)=>article._id == id ? {...article, status: 'published'}: article))
+    const response = await axios.put(`/api/articles/publish?id=${id}`)
     console.log(response.data)
   }
 
   const handleArchive = async (id: string)=>{
-    const response = await axios.put(`http://localhost:3000/api/articles/archive?id=${id}`)
+    setCurrentArticles(currentArticles.map((article)=>article._id == id ? {...article, status: 'archived'}: article))
+    const response = await axios.put(`/api/articles/archive?id=${id}`)
     console.log(response.data)
   }
 
 
   return (
     <div className="mx-2 max-w-md overflow-hidden rounded-lg bg-white shadow">
-      <img src={`http://localhost:3000/articleImages/${articleImage}`} className="aspect-video w-full object-cover" alt="article image" />
+      <img src={`/articleImages/${articleImage}`} className="aspect-video w-full object-cover" alt="article image" />
       <div className={`p-4 h-[100%] ${location.pathname == '/dashboard' ? 'hover:bg-slate-50 hover:cursor-pointer': 'hover:cursor-pointer'}`} onClick={()=>{location.pathname == '/dashboard' ? navigate('/dashboard'): null}}>
         <p className="mb-1 text-sm text-primary-500">{author} • <time>{parseDate(createdAt)}</time></p>
         <h3 className="text-xl font-medium text-gray-900">{title}</h3>
