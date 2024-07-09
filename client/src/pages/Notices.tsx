@@ -5,12 +5,14 @@ import ArticleCard from "../components/ArticleCard"
 import Loader from "../components/Loader"
 import SortBtn from "../components/SortBtn"
 import { latestNoticeArticlesSelector } from "../store/atoms/latestArticles"
+import { popularNoticeArticlesSelector } from "../store/atoms/popularArticles"
 
 export default function Notices(){
 
     const displayArticles = useRecoilValueLoadable(noticeArticleSelector)
-    const sortedNoticeArticles = useRecoilValueLoadable(latestNoticeArticlesSelector)
-    const [sort, setSort] = useState(false)
+    const sortedLatestNoticeArticles = useRecoilValueLoadable(latestNoticeArticlesSelector)
+    const sortedPopularNoticeArticles = useRecoilValueLoadable(popularNoticeArticlesSelector)
+    const [sort, setSort] = useState('')
     switch (displayArticles.state) {
         case 'hasValue':
             return (
@@ -18,9 +20,12 @@ export default function Notices(){
                     <h1 className="font-bold text-2xl text-center mt-8">Notices</h1>
                     <SortBtn sort={sort} setSort={setSort}/>
                     <div className="mt-6 grid gap-x-2 gap-y-3 md:grid-cols-2 lg:grid-cols-4 w-[90%] mx-auto">
-                        {sort ? sortedNoticeArticles.state == 'hasValue' ?
-                        sortedNoticeArticles.contents.map((article)=><ArticleCard id={article._id} title={article.title} content={article.content} category={article.category} articleImage={article.articleImage} status={article.status} author={article.author} createdAt={article.createdAt}/>):
-                        <div className="flex justify-center items-center h-screen w-screen"><Loader/></div> :
+                        {sort == 'latest' ? (sortedLatestNoticeArticles.state == 'hasValue' ?
+                        sortedLatestNoticeArticles.contents.map((article)=><ArticleCard id={article._id} title={article.title} content={article.content} category={article.category} articleImage={article.articleImage} status={article.status} author={article.author} createdAt={article.createdAt}/>):
+                        <div className="flex justify-center items-center h-screen w-screen"><Loader/></div>) :
+                        sort == 'popular' ? (sortedPopularNoticeArticles.state == 'hasValue' ?
+                        sortedPopularNoticeArticles.contents.map((article)=><ArticleCard id={article._id} title={article.title} content={article.content} category={article.category} articleImage={article.articleImage} status={article.status} author={article.author} createdAt={article.createdAt}/>):
+                        <div className="flex justify-center items-center h-screen w-screen"><Loader/></div>) :
                         displayArticles.contents.map((article)=><ArticleCard id={article._id} title={article.title} content={article.content} category={article.category} articleImage={article.articleImage} status={article.status} author={article.author} createdAt={article.createdAt}/>)
                         }
                     </div>

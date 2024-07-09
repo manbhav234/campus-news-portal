@@ -4,7 +4,7 @@ import SortByCard from "./SortByCard"
 import { useState } from "react"
 
 
-export default function SortBtn({setSort, sort} : {setSort : React.Dispatch<React.SetStateAction<boolean>>, sort: boolean}){
+export default function SortBtn({setSort, sort} : {setSort : React.Dispatch<React.SetStateAction<string>>, sort: string}){
 
     const [open, setOpen] = useState(false)
     return (

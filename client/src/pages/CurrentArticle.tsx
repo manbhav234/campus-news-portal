@@ -55,7 +55,6 @@ export default function CurrentArticle(){
         axios.put(`/api/articles/updateReactions?id=${articleId}`, {
             reactions: updatedArticleReactions
         })
-        setEmojiTrayOpen(false)
     } 
 
     return (

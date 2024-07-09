@@ -58,7 +58,7 @@ router.put('/archive', async (req,res)=>{
 })
 
 router.delete('/delete', async (req,res)=>{
-    const id = req.query._id
+    const id = req.query.id
     await Article.deleteOne({_id: id})
     res.json({
         success:true
