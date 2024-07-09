@@ -7,7 +7,6 @@ import axios from "axios"
 import parseDate from "../utils/parseDate"
 import { useRecoilStateLoadable, useSetRecoilState } from "recoil"
 import { Article, currentUserArticlesAtom } from "../store/atoms/currentUserArticles"
-import 'react-toastify/dist/ReactToastify.css';
 import { allArticlesAtom } from "../store/atoms/allArticles"
 
 interface ArticleCardProp {

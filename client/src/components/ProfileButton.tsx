@@ -3,13 +3,19 @@ import { faUser, faCaretUp } from "@fortawesome/free-solid-svg-icons"
 import { useState } from "react"
 import { Link, useNavigate } from "react-router-dom"
 import axios from "axios"
+import { useSetRecoilState } from "recoil"
+import { loginAtom } from "../store/atoms/loginAtom"
 
 export default function ProfileButton(){
     const [isOpen, setIsOpen] = useState(false)
+    const setLogin = useSetRecoilState(loginAtom)
     const navigate = useNavigate()
     const handleLogout = async () => {
-        const response = await axios.get('/auth/logout')
-        console.log(response.data)
+        const response = await axios.get('/auth/logout', {withCredentials: true})
+        if (response.data.success){
+            setLogin(false)
+            navigate('/')
+        }
     }
 
     const handleCloseOverlay  = ()=>{
@@ -29,7 +35,7 @@ export default function ProfileButton(){
             </div>
             <div className="hidden md:flex flex-col fixed right-2 top-16 rounded-xl w-48 bg-white shadow-md">
                 <Link to={'/dashboard'} className="p-3 text-lg hover:font-medium bg-slate-100 hover:bg-slate-200" onClick={handleCloseOverlay}>Dashboard</Link>
-                <button className="p-3 text-lg hover:font-medium bg-slate-100 text-start hover:bg-slate-200" onClick={()=>{handleCloseOverlay()}}>Logout</button>
+                <button className="p-3 text-lg hover:font-medium bg-slate-100 text-start hover:bg-slate-200" onClick={()=>{handleCloseOverlay();handleLogout()}}>Logout</button>
             </div>  
         </> : null}
         </>

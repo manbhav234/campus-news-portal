@@ -6,10 +6,10 @@ router.get('/google', passport.authenticate('google', {
     scope: ['profile']
 }))
 
-router.get('/logout', (req,res, next)=>{
-    req.logout(function (err){
-        if (err) {return next(err)}
-        res.redirect('http://localhost:5173/')
+router.get('/logout', (req,res)=>{
+    req.session = null
+    res.json({
+        success:true
     })
 })
 

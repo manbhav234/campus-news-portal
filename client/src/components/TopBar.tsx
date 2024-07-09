@@ -1,26 +1,28 @@
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import GoogleLoginBtn from './GoogleLoginBtn'
 import ProfileButton from './ProfileButton'
 import { useEffect, useState } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faBars, faXmark } from '@fortawesome/free-solid-svg-icons'
 import axios from 'axios'
-import { useSetRecoilState } from 'recoil'
+import { useRecoilState, useSetRecoilState } from 'recoil'
 import { currentUserAtom } from '../store/atoms/user'
+import { loginAtom } from '../store/atoms/loginAtom'
 
 export default function TopBar(){
 
     const [isMenuHidden, setMenuHidden] = useState(true)
-    const [isLoggedIn, setIsLoggedIn] = useState(false)
+    const [login, setLogin] = useRecoilState(loginAtom)
     const setCurrentUser = useSetRecoilState(currentUserAtom)
+    const navigate = useNavigate()
 
     async function checkLogin(){
         const response = await axios.get('/api/user/authenticate', {withCredentials: true})
         if (response.data.success){
             setCurrentUser(response.data.user)
-            setIsLoggedIn(true)
+            setLogin(true)
         }else{
-            setIsLoggedIn(false)
+            setLogin(false)
         }    
     }
 
@@ -28,10 +30,19 @@ export default function TopBar(){
         checkLogin()
     }, [])
 
+    const handleLogout = async () => {
+        const response = await axios.get('/auth/logout', {withCredentials: true})
+        if (response.data.success){
+            setLogin(false)
+            navigate('/')
+        }
+
+    }
+
     function toggleMenu(){
         setMenuHidden(!isMenuHidden)
     }
-    console.log(isLoggedIn)
+
     const toggleMenuClassList = isMenuHidden ? 'hidden' : 'fixed bg-white inset-0 md:hidden'
 
     return (
@@ -70,17 +81,17 @@ export default function TopBar(){
                     <Link to={'/clubs'} className='text-xl p-3 hover:font-bold hover:bg-gray-100 rounded-xl' onClick={toggleMenu}>Clubs</Link>
                 </div>
                 <div className='h-[1px] w-[95%] mx-auto bg-gray-200 mt-2'></div>
-                {isLoggedIn ? 
+                {login ? 
                 <div className='flex flex-col mx-6 space-y-2 mt-2'>
                     <Link to={'/dashboard'} className='text-xl p-3 hover:font-bold hover:bg-gray-100 rounded-xl' onClick={toggleMenu}>Dashboard</Link>
-                    <button className='text-xl p-3 hover:font-bold hover:bg-gray-100 rounded-xl text-start' onClick={()=>{toggleMenu()}}>Logout</button>
+                    <button className='text-xl p-3 hover:font-bold hover:bg-gray-100 rounded-xl text-start' onClick={()=>{toggleMenu(); handleLogout()}}>Logout</button>
                 </div> :
                 <div className='flex justify-center items-center'>
                     <GoogleLoginBtn/>
                 </div>                
                 }
             </div>
-            {isLoggedIn ? <ProfileButton/> : <div className='hidden md:inline'><GoogleLoginBtn/></div>}
+            {login ? <ProfileButton/> : <div className='hidden md:inline'><GoogleLoginBtn/></div>}
         </nav>
     )
 }
