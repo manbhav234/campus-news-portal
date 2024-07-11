@@ -35,6 +35,7 @@ export default function TopBar(){
         if (response.data.success){
             setLogin(false)
             navigate('/')
+            setCurrentUser({username: 'Anonymous', googleId: '', _id: ''})
         }
 
     }

@@ -33,8 +33,8 @@ export const currentUserArticlesAtom = atom({
     default: selector({
         key: 'fetchArticlesSelector',
         get: async ({get}) => {
-            const username = get(currentUserAtom).username
-            const response = await axios.get(`/api/user/articles?username=${username}`, {withCredentials: true})
+            const user = get(currentUserAtom)
+            const response = await axios.get(`/api/user/articles?id=${user._id}`, {withCredentials: true})
             return response.data.articles as Article[]
         }
     })

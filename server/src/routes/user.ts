@@ -13,8 +13,8 @@ router.get('/authenticate', authenticate, (req,res)=>{
 })
 
 router.get('/articles', authenticate, async (req,res)=>{
-    const username = req.query.username
-    const articles = await Article.find({author: username}).select('-__v')
+    const userId = req.query.id
+    const articles = await Article.find({author: userId}).select('-__v')
     res.json({
         articles: articles
     })

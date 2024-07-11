@@ -5,16 +5,20 @@ import { Link, useNavigate } from "react-router-dom"
 import axios from "axios"
 import { useSetRecoilState } from "recoil"
 import { loginAtom } from "../store/atoms/loginAtom"
+import { currentUserAtom } from "../store/atoms/user"
 
 export default function ProfileButton(){
     const [isOpen, setIsOpen] = useState(false)
     const setLogin = useSetRecoilState(loginAtom)
+    const setCurrentUser = useSetRecoilState(currentUserAtom)
+
     const navigate = useNavigate()
     const handleLogout = async () => {
         const response = await axios.get('/auth/logout', {withCredentials: true})
         if (response.data.success){
             setLogin(false)
             navigate('/')
+            setCurrentUser({username: 'Anonymous', googleId: '', _id: ''})
         }
     }
 

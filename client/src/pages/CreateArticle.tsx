@@ -31,7 +31,7 @@ export default function CreateArticle(){
         formData.append('title', data.title)
         formData.append('content', data.content)
         formData.append('category', data.category)
-        formData.append('author', currentUser.username)
+        formData.append('author', currentUser._id)
         formData.append('status', formStatus)
         const response = await axios.post('/api/articles/upload', formData, {withCredentials: true})
         if (response.data.success){

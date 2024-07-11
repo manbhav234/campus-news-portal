@@ -11,7 +11,6 @@ export default function Dashboard(){
     const currentUserArticles = useRecoilValueLoadable(currentUserArticlesAtom)
     const publishedArticles = useRecoilValueLoadable(publishedArticlesSelector)
     const archivedArticles = useRecoilValueLoadable(archivedArticlesSelector)
-
     const navigate = useNavigate()
 
     switch (currentUserArticles.state){
