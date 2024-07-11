@@ -21,7 +21,10 @@ export interface Article {
     content: string,
     category: string,
     articleImage: string,
-    author: string,
+    author: {
+        username: string,
+        authorId: string
+    }
     status: string,
     createdAt: number,
     reactions: EmojiType[],

@@ -18,8 +18,14 @@ const ArticleSchema = new mongoose.Schema({
         default: ''
     },
     author : {
-        type: String,
-        ref: 'users'
+        username: {
+            type: mongoose.Schema.Types.String,
+            ref: 'users'
+        },
+        authorId: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'users'
+        }
     },
     status: String,
     createdAt: Number,

@@ -10,7 +10,7 @@ router.post('/upload', upload.single('file'), async (req,res)=>{
         content: req.body.content,
         category: req.body.category,
         articleImage: req.file?.filename,
-        author: req.body.author,
+        author: {username: req.body.authorName, authorId: req.body.authorId},
         status: req.body.status,
         createdAt: date,
         reactions: [],
