@@ -46,7 +46,7 @@ export default function TopBar(){
     const toggleMenuClassList = isMenuHidden ? 'hidden' : 'fixed bg-white inset-0 md:hidden'
 
     return (
-        <nav className='border-b-[1px] bg-white border-slate-200 flex justify-between items-center sticky top-0'>
+        <nav className='border-b-[1px] bg-white border-slate-200 flex justify-between items-center sticky z-10 top-0'>
 
             <Link className='m-6 text-xl font-bold' to={'/'}>BITS Goa News Portal</Link>
 

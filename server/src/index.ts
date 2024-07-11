@@ -1,5 +1,5 @@
-import express from 'express'
 import 'dotenv/config'
+import express from 'express'
 import authRouter from './routes/auth'
 import userRouter from './routes/user'
 import articleRouter from './routes/articles'
@@ -12,10 +12,10 @@ import cookieSession from 'cookie-session'
 const app = express()
 const port = process.env.PORT || 3000;
 
-mongoose.connect(process.env.MONGO_URI!)
+mongoose.connect(`${process.env.MONGO_URI}/campusNewsPortal`)
 
 app.use(cookieSession({
-    maxAge: 90 * 24 * 60 * 60 * 1000,
+    maxAge: 30 * 24 * 60 * 60 * 1000,
     keys: [process.env.TOKEN_SECRET!]
 }))
 

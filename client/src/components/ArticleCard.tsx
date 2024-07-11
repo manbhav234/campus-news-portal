@@ -61,7 +61,7 @@ export default function ArticleCard({id, title, content, category, articleImage,
     <>
     <div className="mx-2 max-w-md overflow-hidden rounded-lg bg-white shadow">
       <img src={`/articleImages/${articleImage}`} className="aspect-video w-full object-cover" alt="article image" />
-      <div className={`p-4 h-[100%] ${location.pathname == '/dashboard' ? 'hover:bg-slate-50 hover:cursor-pointer': 'hover:cursor-pointer'}`} onClick={()=>{location.pathname == '/dashboard' ? navigate('/dashboard'): null}}>
+      <div className={`p-4 h-[100%] ${location.pathname == '/dashboard' ? '': 'hover:cursor-pointer'}`} onClick={()=>{location.pathname == '/dashboard' ? navigate('/dashboard'): null}}>
         <p className="mb-1 text-sm text-primary-500">{author} • <time>{parseDate(createdAt)}</time></p>
         <h3 className="text-xl font-medium text-gray-900">{title}</h3>
         {/* <p className="mt-1 text-gray-500">{content}</p> */}

@@ -11,6 +11,7 @@ import PrivateRoute from './components/PrivateRoute'
 import Dashboard from './pages/Dashboard'
 import CreateArticle from './pages/CreateArticle'
 import CurrentArticle from './pages/CurrentArticle'
+import MainPage from './pages/MainPage'
 
 
 function App() {
@@ -19,6 +20,7 @@ function App() {
         <BrowserRouter>
           <TopBar/>
           <Routes>
+            <Route path='/' element={<MainPage/>}/>
             <Route path='/all' element={<AllArticles/>}/>
             <Route path='/general' element={<General/>}/>
             <Route path='/notices' element={<Notices/>}/>
