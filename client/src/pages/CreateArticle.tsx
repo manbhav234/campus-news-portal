@@ -8,6 +8,7 @@ import { currentUserAtom } from "../store/atoms/user";
 import { currentUserArticlesAtom } from "../store/atoms/currentUserArticles";
 import { useNavigate } from "react-router-dom";
 import { useState, useRef } from "react";
+import { allArticlesAtom } from "../store/atoms/allArticles";
 
 
 type Inputs = {
@@ -19,10 +20,11 @@ type Inputs = {
 
 export default function CreateArticle(){
 
-    const { register, handleSubmit,watch, setValue, formState: { errors, isSubmitting } } = useForm<Inputs>();
+    const { register, handleSubmit, setValue, formState: { errors, isSubmitting } } = useForm<Inputs>();
     const currentUser = useRecoilValue(currentUserAtom)
     const [currentUserArticles, setCurrentUserArticles] = useRecoilState(currentUserArticlesAtom)
     const [formStatus, setFormStatus] = useState('archived')
+    const [displayArticles,setDisplayArticles] = useRecoilState(allArticlesAtom)
     const navigate = useNavigate()
 
     const onSubmit: SubmitHandler<Inputs> = async (data) => {
@@ -37,6 +39,7 @@ export default function CreateArticle(){
         const response = await axios.post('/api/articles/upload', formData, {withCredentials: true})
         if (response.data.success){
             setCurrentUserArticles([...currentUserArticles, response.data.article])
+            setDisplayArticles([...displayArticles, response.data.article])
             navigate('/dashboard')
         }
     };
@@ -51,7 +54,7 @@ export default function CreateArticle(){
         setFormStatus(type)
     }
 
-    const handleContentChange = (content : string, editor: TinyMCEEditor) => {
+    const handleContentChange = (content : string) => {
         setValue('content', content)
     }
 
@@ -96,7 +99,7 @@ export default function CreateArticle(){
                     <button disabled={isSubmitting} type="submit" className="text-white font-bold text-lg rounded-xl p-3 bg-sky-500 mx-2" onClick={()=> handleSubmitType('archived')}>Archive</button>
                     <button disabled={isSubmitting} type="submit" className="text-white font-bold text-lg rounded-xl p-3 bg-red-500 " onClick={()=> handleSubmitType('published')}>Publish</button>
                 </div>
-                {isSubmitting && <svg xmlns="http://www.w3.org/2000/svg" viewBox="-600 0 1400 1400"><circle fill="#000000" stroke="#000000" stroke-width="2" r="15" cx="40" cy="65"><animate attributeName="cy" calcMode="spline" dur="2" values="65;135;65;" keySplines=".5 0 .5 1;.5 0 .5 1" repeatCount="indefinite" begin="-.4"></animate></circle><circle fill="#000000" stroke="#000000" stroke-width="2" r="15" cx="100" cy="65"><animate attributeName="cy" calcMode="spline" dur="2" values="65;135;65;" keySplines=".5 0 .5 1;.5 0 .5 1" repeatCount="indefinite" begin="-.2"></animate></circle><circle fill="#000000" stroke="#000000" stroke-width="2" r="15" cx="160" cy="65"><animate attributeName="cy" calcMode="spline" dur="2" values="65;135;65;" keySplines=".5 0 .5 1;.5 0 .5 1" repeatCount="indefinite" begin="0"></animate></circle></svg>}
+                {isSubmitting && <svg xmlns="http://www.w3.org/2000/svg" viewBox="-600 0 1400 1400"><circle fill="#000000" stroke="#000000" strokeWidth="2" r="15" cx="40" cy="65"><animate attributeName="cy" calcMode="spline" dur="2" values="65;135;65;" keySplines=".5 0 .5 1;.5 0 .5 1" repeatCount="indefinite" begin="-.4"></animate></circle><circle fill="#000000" stroke="#000000" stroke-width="2" r="15" cx="100" cy="65"><animate attributeName="cy" calcMode="spline" dur="2" values="65;135;65;" keySplines=".5 0 .5 1;.5 0 .5 1" repeatCount="indefinite" begin="-.2"></animate></circle><circle fill="#000000" stroke="#000000" stroke-width="2" r="15" cx="160" cy="65"><animate attributeName="cy" calcMode="spline" dur="2" values="65;135;65;" keySplines=".5 0 .5 1;.5 0 .5 1" repeatCount="indefinite" begin="0"></animate></circle></svg>}
             </form>
         </div>
     )

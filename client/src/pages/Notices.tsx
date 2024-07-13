@@ -21,12 +21,12 @@ export default function Notices(){
                     <SortBtn sort={sort} setSort={setSort}/>
                     <div className="mt-6 grid gap-x-2 gap-y-3 md:grid-cols-2 lg:grid-cols-4 w-[90%] mx-auto">
                         {sort == 'latest' ? (sortedLatestNoticeArticles.state == 'hasValue' ?
-                        sortedLatestNoticeArticles.contents.map((article)=><ArticleCard id={article._id} title={article.title} content={article.content} category={article.category} articleImage={article.articleImage} status={article.status} author={article.author} createdAt={article.createdAt}/>):
+                        sortedLatestNoticeArticles.contents.map((article)=><ArticleCard key={article._id} id={article._id} title={article.title} content={article.content} category={article.category} articleImage={article.articleImage} status={article.status} author={article.author} createdAt={article.createdAt}/>):
                         <div className="flex justify-center items-center h-screen w-screen"><Loader/></div>) :
                         sort == 'popular' ? (sortedPopularNoticeArticles.state == 'hasValue' ?
-                        sortedPopularNoticeArticles.contents.map((article)=><ArticleCard id={article._id} title={article.title} content={article.content} category={article.category} articleImage={article.articleImage} status={article.status} author={article.author} createdAt={article.createdAt}/>):
+                        sortedPopularNoticeArticles.contents.map((article)=><ArticleCard key={article._id} id={article._id} title={article.title} content={article.content} category={article.category} articleImage={article.articleImage} status={article.status} author={article.author} createdAt={article.createdAt}/>):
                         <div className="flex justify-center items-center h-screen w-screen"><Loader/></div>) :
-                        displayArticles.contents.map((article)=><ArticleCard id={article._id} title={article.title} content={article.content} category={article.category} articleImage={article.articleImage} status={article.status} author={article.author} createdAt={article.createdAt}/>)
+                        displayArticles.contents.map((article)=><ArticleCard key={article._id} id={article._id} title={article.title} content={article.content} category={article.category} articleImage={article.articleImage} status={article.status} author={article.author} createdAt={article.createdAt}/>)
                         }
                     </div>
                 </div>

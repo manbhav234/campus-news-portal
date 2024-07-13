@@ -1,11 +1,11 @@
 import { selector } from "recoil";
-import { allArticlesAtom, clubArticleSelector, eventArticleSelector, generalArticleSelector, noticeArticleSelector } from "./allArticles";
+import { clubArticleSelector, eventArticleSelector, generalArticleSelector, noticeArticleSelector, publishedAllArticlesSelector } from "./allArticles";
 import sortByPopularity from "../../utils/sortByPopularity";
 
 export const popularAllArticleSelector = selector({
     key: 'popularAllArticlesSelector',
     get: ({get}) => {
-        const allArticles = get(allArticlesAtom)
+        const allArticles = get(publishedAllArticlesSelector)
         const toBeSorted = [...allArticles]
         return sortByPopularity(toBeSorted)
     }

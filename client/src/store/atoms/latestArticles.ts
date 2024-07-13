@@ -1,12 +1,12 @@
 import { selector } from "recoil";
-import { allArticlesAtom, clubArticleSelector, eventArticleSelector, generalArticleSelector, noticeArticleSelector } from "./allArticles";
+import { clubArticleSelector, eventArticleSelector, generalArticleSelector, noticeArticleSelector, allArticlesAtom, publishedAllArticlesSelector } from "./allArticles";
 import sortByLatest from "../../utils/sortByLatest";
 
 
 export const latestAllArticlesSelector = selector({
     key: 'latestAllArticlesSelector',
     get: ({get}) => {
-        const allArticles = get(allArticlesAtom)
+        const allArticles = get(publishedAllArticlesSelector)
         const toBeSorted = [...allArticles]
         return sortByLatest(toBeSorted)
     }

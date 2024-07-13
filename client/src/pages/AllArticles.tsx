@@ -1,6 +1,6 @@
 import { useRecoilValueLoadable } from "recoil"
 import { useState } from "react"
-import { allArticlesAtom } from "../store/atoms/allArticles"
+import { publishedAllArticlesSelector } from "../store/atoms/allArticles"
 import ArticleCard from "../components/ArticleCard"
 import Loader from "../components/Loader"
 import SortBtn from "../components/SortBtn"
@@ -9,12 +9,13 @@ import { popularAllArticleSelector } from "../store/atoms/popularArticles"
 
 export default function AllArticles(){
 
-    const displayArticles = useRecoilValueLoadable(allArticlesAtom)
+    const displayArticles = useRecoilValueLoadable(publishedAllArticlesSelector)
     const sortedLatestAllArticles = useRecoilValueLoadable(latestAllArticlesSelector)
     const sortedPopularAllArticles = useRecoilValueLoadable(popularAllArticleSelector)
     const [sort, setSort] = useState('')
     switch (displayArticles.state) {
         case 'hasValue':
+            console.log(displayArticles.contents)
             return (
                 <div className="flex flex-col gap-2 mb-12">
                     <h1 className="font-bold text-2xl text-center mt-8">All News Articles</h1>

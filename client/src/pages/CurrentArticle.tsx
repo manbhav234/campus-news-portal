@@ -66,7 +66,7 @@ export default function CurrentArticle(){
         <div className="w-[85%] mx-auto flex flex-col justify-center border-x-2 shadow">
             <img src={`/articleImages/${currentArticle.articleImage}`} alt="Article Image" className="place-self-center w-[70%] rounded-2xl mt-12"/>
             <div className="flex flex-col gap-2 md:flex-row md:justify-between items-center mt-6 w-[68%] mx-auto">
-                <p className="text-xl mb-6 font-semibold">Author : {currentArticle.author}</p>
+                <p className="text-xl mb-6 font-semibold">Author : {currentArticle.author.username}</p>
                 <span className="rounded-full bg-blue-50 px-4 py-2 text-base md:text-lg font-semibold text-blue-600 text-center mb-4"> {currentArticle.category} </span>
             </div>
             <h1 className="text-3xl md:text-5xl text-center font-bold my-8">{currentArticle.title}</h1>
